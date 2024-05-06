@@ -50,7 +50,7 @@ const OunceSchema = new mongoose.Schema({
 const Ounce = mongoose.model("Ounce", OunceSchema);
 
 // Define routes
-app.get("/", async (req, res) => {
+app.get("/getall33456", async (req, res) => {
   try {
     const emails = await Ounce.find({}, { _id: 0, email: 1 });
 
