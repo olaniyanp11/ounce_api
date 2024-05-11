@@ -147,7 +147,7 @@ app.post("/addemail", async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error.message);
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json("error sending mail");
       } else {
         console.log("Email sent successfully:");
         return res
