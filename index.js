@@ -6,8 +6,9 @@ const mongoose = require("mongoose");
 
 dotenv.config();
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  port: 587,
+  
+  host: 'smtp.gmail.com',
+  port: 465,
   secure: true,
   auth: {
     user: "olaniyanp11@gmail.com",
