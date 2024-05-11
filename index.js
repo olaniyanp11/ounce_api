@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: "olaniyanp11@gmail.com",
-    pass: "your_gmail_password",
+    pass: "lthd stsa znxf mnas",
   },
 });
 
@@ -147,9 +147,9 @@ app.post("/addemail", async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending email:", error.message);
-        return res.status(500).json({ error: "Failed to send email" });
+        return res.status(500).json({ error: error.message });
       } else {
-        console.log("Email sent successfully:", info.response);
+        console.log("Email sent successfully:");
         return res
           .status(201)
           .json({ message: "Email added and sent successfully" });
