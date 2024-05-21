@@ -6,14 +6,17 @@ const mongoose = require("mongoose");
 
 dotenv.config();
 const transporter = nodemailer.createTransport({
-  
-  host: 'smtp.gmail.com',
+  host: "smtp.zoho.com",
+  auth: {
+    user: process.env.APP_EMAIL,
+    pass: process.env.APP_PASSWORD,
+  },
   port: 465,
   secure: true,
-  auth: {
-    user: "olaniyanp11@gmail.com",
-    pass: "jfic kiap lufv ucvx",
+  tls: {
+    rejectUnauthorized: false,
   },
+  requireTLS: true,
 });
 
 const app = express();
@@ -53,11 +56,10 @@ const Ounce = mongoose.model("Ounce", OunceSchema);
 // Define routes
 app.get("/getall33456", async (req, res) => {
   try {
-    const emails = await Ounce.find({}, { _id: 0, email: 1 });
+    const emails = await Ounce.find();
 
-    if (emails && emails.length > 0) {
-      const emailList = emails.map((item) => item.email);
-      return res.status(200).json(emailList);
+    if (emails) {
+      return res.status(200).json(emails);
     } else {
       return res.status(404).json({ error: "No email found" });
     }
@@ -66,7 +68,18 @@ app.get("/getall33456", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
+app.post("/del/:email", async (req, res) => {
+  const email = req.params.email;
+  if (!email) res.status(400).json("please input email");
+  try {
+    await Ounce.findOneAndDelete({ email: email });
+    console.log("email deleted");
+    res.status(200).json("email deleted successfully");
+  } catch (error) {
+    console.log("error deleting emails");
+    res.status(200).json("error deleting email");
+  }
+});
 app.post("/addemail", async (req, res) => {
   const { email } = req.body;
 
@@ -87,10 +100,10 @@ app.post("/addemail", async (req, res) => {
     await newEntry.save();
 
     const mailOptions = {
-      from: "olaniyanp11@gmail.com",
+      from: "admin@tryounce.com",
       to: email,
-      subject: "Nodemailer Email Example",
-      text: "This is the plain text content of the email.",
+      subject: "Tryounce",
+      text: "Thank you for joining our waiting list",
       html: `
     <!DOCTYPE html>
     <html lang="en">
@@ -147,8 +160,8 @@ app.post("/addemail", async (req, res) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error("Error sending email:", error.message);
-        return res.status(500).json("error sending mail but email saved to the waitinglist ");
+        console.error("Error sending email:", error);
+        return res.status(500).json("error sending mail ");
       } else {
         console.log("Email sent successfully:");
         return res
