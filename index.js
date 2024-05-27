@@ -24,6 +24,7 @@ const port = process.env.PORT || 3000;
 const allowedOrigin = [
   "https://ounce-client.vercel.app",
   "https://ounce-client.onrender.com",
+  "http://127.0.0.1:3001"
 ];
 const corsOptions = {
   origin: function (origin, callback) {
