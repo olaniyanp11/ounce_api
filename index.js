@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const express = require("express");
 const dotenv = require("dotenv");
-
+const cors = require('cors')
 const mongoose = require("mongoose");
 
 dotenv.config();
@@ -21,6 +21,33 @@ const transporter = nodemailer.createTransport({
 
 const app = express();
 const port = process.env.PORT || 3000;
+const allowedOrigin = [
+  "https://ounce-client.vercel.app",
+  "https://ounce-client.onrender.com",
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Check if the origin is in the allowedOrigins array
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      // If the origin is not allowed, return an error
+      const msg =
+        "The CORS policy for this site does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+  },
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+};
+
+// Use the CORS middleware with the configured options
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,11 +56,7 @@ app.use(express.urlencoded({ extended: true }));
 console.log(process.env.MONGODB_URI);
 mongoose
   .connect(
-    "mongodb+srv://olaniyanp11:mt3V-9kVrAPSZ.7@cluster0.vgpzmvs.mongodb.net/Ounce",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
+    "mongodb+srv://olaniyanp11:mt3V-9kVrAPSZ.7@cluster0.vgpzmvs.mongodb.net/Ounce"
   )
   .then(() => {
     console.log("MongoDB connected successfully");
