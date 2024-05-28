@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const express = require("express");
 const dotenv = require("dotenv");
-const cors = require('cors')
+const cors = require("cors");
 const mongoose = require("mongoose");
 
 dotenv.config();
@@ -24,7 +24,7 @@ const port = process.env.PORT || 3000;
 const allowedOrigins = [
   "https://ounce-client.vercel.app",
   "https://ounce-client.onrender.com",
-  "http://127.0.0.1:3001"
+  "http://127.0.0.1:3001",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
