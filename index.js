@@ -37,12 +37,9 @@ const corsOptions = {
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
-      // If the origin is not allowed, return an error
-      const msg =
-        "The CORS policy for this site does not allow access from the specified Origin.";
-      return callback(new Error(msg), false);
-    }
-  },
+      console.log(`Blocked by CORS: ${origin}`); // Log the blocked origin
+      return callback(new Error('Not allowed by CORS'), false);
+    },
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
