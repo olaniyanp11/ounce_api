@@ -38,8 +38,9 @@ const corsOptions = {
       return callback(null, true);
     } else {
       console.log(`Blocked by CORS: ${origin}`); // Log the blocked origin
-      return callback(new Error('Not allowed by CORS'), false);
-    },
+      return callback(new Error("Not allowed by CORS"), false);
+    }
+  },
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
