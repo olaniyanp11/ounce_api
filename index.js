@@ -25,6 +25,7 @@ const allowedOrigins = [
   "https://ounce-client.vercel.app",
   "https://ounce-client.onrender.com",
   "http://localhost:3001",
+  "https://tryounce.com",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
